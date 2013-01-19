@@ -18,6 +18,7 @@ public class Bat extends FlxSprite
 		origin.y = height / 2;
 		elasticity = 1;
 		immovable = true;
+		setSolid(true);
 	}
 
 	@Override public void update()

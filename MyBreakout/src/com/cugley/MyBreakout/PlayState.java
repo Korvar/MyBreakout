@@ -31,13 +31,27 @@ public class PlayState extends FlxState
 			@Override
 			public void callback(FlxObject colBall, FlxObject colBat)
 			{
+				FlxG.play("Ping.mp3");
 				if (colBall.isTouching(FlxObject.WALL))
 				{
 					colBall.velocity.x = -colBall.velocity.x;
+					FlxG.play("Pang.mp3");
 				}
 				if (colBall.isTouching(FlxObject.UP) || colBall.isTouching(FlxObject.DOWN))
 				{
 					colBall.velocity.y = -colBall.velocity.y;
+					FlxG.play("Pong.mp3");
+				}
+				
+				if (colBall.justTouched(FlxObject.WALL))
+				{
+					colBall.velocity.x = -colBall.velocity.x;
+					FlxG.play("Pang.mp3");
+				}
+				if (colBall.justTouched(FlxObject.UP) || colBall.justTouched(FlxObject.DOWN))
+				{
+					colBall.velocity.y = -colBall.velocity.y;
+					FlxG.play("Pong.mp3");
 				}
 				
 			}

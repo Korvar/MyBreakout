@@ -46,7 +46,8 @@ public class Ball extends FlxSprite {
 		velocity.y = YVel;
 		exists = true;
 		elasticity = 1;
-		immovable = true;
+		// immovable = true;
+		setSolid(true);
 	}
 	@Override
 	public void update()
@@ -68,23 +69,24 @@ public class Ball extends FlxSprite {
 		{
 			x = FlxG.width - width;
 			velocity.x = -velocity.x;
-			// FlxG.play(PangSFX)
+			FlxG.play("Pang.mp3");
+			
 		}
 		if (x <= 0)
 		{
 			x = 0;
 			velocity.x = -velocity.x;
-			// FlxG.play(PangSFX)			
+			FlxG.play("Pang.mp3");			
 		}
 		if (y <= 0)
 		{
 			y = 0;
 			velocity.y = - velocity.y;
-			//FlxG.play(PangSFX);
+			FlxG.play("Pang.mp3");
 		}
 		if (y >= FlxG.height)
 		{
-			// FlxG.play(OwSFX);
+			FlxG.play("Ow.mp3");
 			// kill();
 			y = FlxG.height;
 			velocity.y = -velocity.y;
