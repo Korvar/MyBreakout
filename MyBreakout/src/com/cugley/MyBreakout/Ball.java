@@ -45,6 +45,8 @@ public class Ball extends FlxSprite {
 		velocity.x = XVel;
 		velocity.y = YVel;
 		exists = true;
+		elasticity = 1;
+		immovable = true;
 	}
 	@Override
 	public void update()
@@ -88,9 +90,12 @@ public class Ball extends FlxSprite {
 			velocity.y = -velocity.y;
 			
 		}
+		
 		super.update();
 		
 		
 	}
+	
+
 
 }

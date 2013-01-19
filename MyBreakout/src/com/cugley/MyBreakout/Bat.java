@@ -16,6 +16,8 @@ public class Bat extends FlxSprite
 		FlxG.createBitmap(32,  8,  0xFFFFFF);
 		origin.x = width / 2;
 		origin.y = height / 2;
+		elasticity = 1;
+		immovable = true;
 	}
 
 	@Override public void update()
