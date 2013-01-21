@@ -13,7 +13,7 @@ public class Bat extends FlxSprite
 	{
 		_max_health = 5;
 		health = _max_health;
-		FlxG.createBitmap(32,  8,  0xFFFFFF);
+		makeGraphic(32,  8,  0xFFFFFFFF);
 		origin.x = width / 2;
 		origin.y = height / 2;
 		elasticity = 1;

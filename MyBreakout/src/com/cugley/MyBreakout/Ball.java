@@ -37,7 +37,7 @@ public class Ball extends FlxSprite {
 	
 	public void create(int X, int Y, int XVel, int YVel, Boolean Served, FlxSprite ThisBat)
 	{
-		FlxG.createBitmap(4, 4, 0xFFFFFF);
+		makeGraphic(4, 4, 0xFFFFFFFF);
 		_served = Served;
 		_bat = ThisBat;
 		x=X;
