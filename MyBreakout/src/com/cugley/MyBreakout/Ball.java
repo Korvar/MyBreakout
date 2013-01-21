@@ -69,20 +69,20 @@ public class Ball extends FlxSprite {
 		{
 			x = FlxG.width - width;
 			velocity.x = -velocity.x;
-			FlxG.play("Pang.mp3");
+			FlxG.play("Ping.mp3");
 			
 		}
 		if (x <= 0)
 		{
 			x = 0;
 			velocity.x = -velocity.x;
-			FlxG.play("Pang.mp3");			
+			FlxG.play("Ping.mp3");			
 		}
 		if (y <= 0)
 		{
 			y = 0;
 			velocity.y = - velocity.y;
-			FlxG.play("Pang.mp3");
+			FlxG.play("Ping.mp3");
 		}
 		if (y >= FlxG.height)
 		{
