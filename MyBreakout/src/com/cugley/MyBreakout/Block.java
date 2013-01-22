@@ -38,7 +38,22 @@ public class Block extends FlxSprite
 		immovable = true;
 	}
 	
-
+	@Override
+	public  void hurt(float damage)
+	{
+		if (! _invulnerable)
+		{
+			super.hurt(damage);
+			setAlpha(health / _maxHealth);
+		}
+	}
+	
+	@Override
+	public void kill()
+	{
+		FlxG.score += 1;
+		super.kill();
+	}
 
 
 }

@@ -6,6 +6,7 @@ import org.flixel.event.*;
 
 public class PlayState extends FlxState
 {
+	private FlxGroup _balls;
 	private Ball _ball;
 	private Bat _bat;
 	private FlxGroup _block;
@@ -49,9 +50,11 @@ public class PlayState extends FlxState
 //		add(_outgoingAngleLineRotated);
 		
 		// Ball
-		// (new FlxText(0, 0, 200, "Hello World"));
+		_balls = new FlxGroup();
 		_ball = new Ball(FlxG.width / 2, FlxG.height /2, 100, 100);
-		add(_ball);
+		_balls.add(_ball);
+		_balls.add(new Ball(FlxG.width / 2, FlxG.height/2, 100, -100));
+		add(_balls);
 		
 		// Score Display
 		_scoreDisplay = new FlxText(0, 0, 200, "");
@@ -171,8 +174,8 @@ public class PlayState extends FlxState
 	public void update()
 	{
 		super.update();
-		// Let's see if the ball has hit the bat.
-		FlxG.overlap(_ball, _bat, batBallCollision);
+		// Let's see if any of the balls have hit the bat.
+		FlxG.overlap(_balls, _bat, batBallCollision);
 	}
 	
 
