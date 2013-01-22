@@ -13,28 +13,18 @@ public class Ball extends FlxSprite {
 	
 	// sound (work out how to do that later)
 	
-	public Ball()
-	{
-	}
+
 	
 	public Ball(int X, int Y, int XVel, int YVel)
 	{
-		super();
-		create(X, Y, XVel, YVel, false, null);
+		this(X, Y, XVel, YVel, false, null);
 	}
 	public Ball(int X, int Y, int XVel, int YVel, Boolean Served)
 	{
-		super();
-		create(X, Y, XVel, YVel, Served, null);
+		this(X, Y, XVel, YVel, Served, null);
 	}
 		
 	public Ball(int X, int Y, int XVel, int YVel, Boolean Served, FlxSprite ThisBat)
-	{
-		super();
-		create(X, Y, XVel, YVel, Served, ThisBat);
-	}
-	
-	public void create(int X, int Y, int XVel, int YVel, Boolean Served, FlxSprite ThisBat)
 	{
 		makeGraphic(4, 4, 0xFFFFFFFF);
 		_served = Served;
@@ -48,6 +38,7 @@ public class Ball extends FlxSprite {
 		immovable = true;
 		setSolid(true);
 	}
+	
 	@Override
 	public void update()
 	{

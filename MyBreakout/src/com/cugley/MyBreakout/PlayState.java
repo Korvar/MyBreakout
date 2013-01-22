@@ -23,30 +23,30 @@ public class PlayState extends FlxState
 	@Override
 	public void create()
 	{
-		// Debug display
-		_debugDisplay = new FlxText(0, 0, FlxG.width, "");
-		add(_debugDisplay);
-		// Debug Line
-		_batAngleLine = new FlxSprite(FlxG.width/2 - 50, FlxG.height/2);
-		_batAngleLine.makeGraphic(100, 1,0xFFFF0000);
-		add(_batAngleLine);
-		// Debug Line
-		_incomingAngleLine = new FlxSprite(FlxG.width/2, FlxG.height/2);
-		_incomingAngleLine.makeGraphic(50, 1,0xFF88FF88);
-		_incomingAngleLine.origin=new FlxPoint(0,0);
-		add(_incomingAngleLine);
-		_outgoingAngleLine = new FlxSprite(FlxG.width/2, FlxG.height/2);
-		_outgoingAngleLine.makeGraphic(50, 1,0xFFCCFFCC);
-		_outgoingAngleLine.origin=new FlxPoint(0,0);
-		add(_outgoingAngleLine);
-		_incomingAngleLineRotated = new FlxSprite(FlxG.width/2, FlxG.height/2);
-		_incomingAngleLineRotated.makeGraphic(50, 1,0xFFFF8888);
-		_incomingAngleLineRotated.origin=new FlxPoint(0,0);
-		add(_incomingAngleLineRotated);
-		_outgoingAngleLineRotated = new FlxSprite(FlxG.width/2, FlxG.height/2);
-		_outgoingAngleLineRotated.makeGraphic(50, 1,0xFFFFCCCC);
-		_outgoingAngleLineRotated.origin=new FlxPoint(0,0);
-		add(_outgoingAngleLineRotated);
+//		// Debug display
+//		_debugDisplay = new FlxText(0, 0, FlxG.width, "");
+//		add(_debugDisplay);
+//		// Debug Line
+//		_batAngleLine = new FlxSprite(FlxG.width/2 - 50, FlxG.height/2);
+//		_batAngleLine.makeGraphic(100, 1,0xFFFF0000);
+//		add(_batAngleLine);
+//		// Debug Line
+//		_incomingAngleLine = new FlxSprite(FlxG.width/2, FlxG.height/2);
+//		_incomingAngleLine.makeGraphic(50, 1,0xFF88FF88);
+//		_incomingAngleLine.origin=new FlxPoint(0,0);
+//		add(_incomingAngleLine);
+//		_outgoingAngleLine = new FlxSprite(FlxG.width/2, FlxG.height/2);
+//		_outgoingAngleLine.makeGraphic(50, 1,0xFFCCFFCC);
+//		_outgoingAngleLine.origin=new FlxPoint(0,0);
+//		add(_outgoingAngleLine);
+//		_incomingAngleLineRotated = new FlxSprite(FlxG.width/2, FlxG.height/2);
+//		_incomingAngleLineRotated.makeGraphic(50, 1,0xFFFF8888);
+//		_incomingAngleLineRotated.origin=new FlxPoint(0,0);
+//		add(_incomingAngleLineRotated);
+//		_outgoingAngleLineRotated = new FlxSprite(FlxG.width/2, FlxG.height/2);
+//		_outgoingAngleLineRotated.makeGraphic(50, 1,0xFFFFCCCC);
+//		_outgoingAngleLineRotated.origin=new FlxPoint(0,0);
+//		add(_outgoingAngleLineRotated);
 		
 		// Ball
 		// (new FlxText(0, 0, 200, "Hello World"));
@@ -123,8 +123,8 @@ public class PlayState extends FlxState
 					FlxPoint outgoingVelocity = new FlxPoint();
 					String tempStr;
 					
-					tempStr = String.valueOf(tmpVelocity.x) + " " 
-							+ String.valueOf(tmpVelocity.y) + " | ";
+//					tempStr = String.valueOf(tmpVelocity.x) + " " 
+//							+ String.valueOf(tmpVelocity.y) + " | ";
 					
 					incomingVelocity = FlxU.rotatePoint(tmpVelocity.x,  tmpVelocity.y,  0,  0,  -batAngle);
 					outgoingVelocity.x = incomingVelocity.x;
@@ -136,24 +136,24 @@ public class PlayState extends FlxState
 					colBall.velocity.y = tmpVelocity.y;
 
 					FlxG.play("Pong.mp3");	
-					tempStr =  tempStr + " " 
-							+ String.valueOf(incomingVelocity.x) + " " 
-							+ String.valueOf(incomingVelocity.y) + " | "
-							+ String.valueOf(outgoingVelocity.x) + " " 
-							+ String.valueOf(outgoingVelocity.y) + " | " 
-							+ String.valueOf(FlxU.getAngle(originPoint, outgoingVelocity)) + " | "
-							+ String.valueOf(tmpVelocity.x) + " " 
-							+ String.valueOf(tmpVelocity.y) + " | "
-							+ String.valueOf(FlxU.getAngle(originPoint, tmpVelocity)) + " | "
-							+ String.valueOf(batAngle);
-					_debugDisplay.setText(tempStr);
-					_batAngleLine.angle = batAngle;
-					
-					
-					_incomingAngleLine.angle = FlxU.getAngle(originPoint, incomingVelocity);
-					_outgoingAngleLine.angle = FlxU.getAngle(originPoint, outgoingVelocity);
-					_incomingAngleLineRotated.angle = FlxU.getAngle(originPoint, incomingVelocity) + batAngle;
-					_outgoingAngleLineRotated.angle = FlxU.getAngle(originPoint, outgoingVelocity) + batAngle;
+//					tempStr =  tempStr + " " 
+//							+ String.valueOf(incomingVelocity.x) + " " 
+//							+ String.valueOf(incomingVelocity.y) + " | "
+//							+ String.valueOf(outgoingVelocity.x) + " " 
+//							+ String.valueOf(outgoingVelocity.y) + " | " 
+//							+ String.valueOf(FlxU.getAngle(originPoint, outgoingVelocity)) + " | "
+//							+ String.valueOf(tmpVelocity.x) + " " 
+//							+ String.valueOf(tmpVelocity.y) + " | "
+//							+ String.valueOf(FlxU.getAngle(originPoint, tmpVelocity)) + " | "
+//							+ String.valueOf(batAngle);
+//					_debugDisplay.setText(tempStr);
+//					_batAngleLine.angle = batAngle;
+//					
+//					
+//					_incomingAngleLine.angle = FlxU.getAngle(originPoint, incomingVelocity);
+//					_outgoingAngleLine.angle = FlxU.getAngle(originPoint, outgoingVelocity);
+//					_incomingAngleLineRotated.angle = FlxU.getAngle(originPoint, incomingVelocity) + batAngle;
+//					_outgoingAngleLineRotated.angle = FlxU.getAngle(originPoint, outgoingVelocity) + batAngle;
 					
 					//colBall.immovable = false;
 
