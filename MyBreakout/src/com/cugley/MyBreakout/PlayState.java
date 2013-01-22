@@ -9,10 +9,11 @@ public class PlayState extends FlxState
 	private FlxGroup _balls;
 	private Ball _ball;
 	private Bat _bat;
-	private FlxGroup _block;
+	private FlxGroup _blocks;
 	private FlxText _scoreDisplay;
 	private FlxText _debugDisplay;
 	private AFlxCollision batBallCollision;
+	private AFlxCollision ballBlockCollision;
 	
 	private FlxSprite _batAngleLine;
 	private FlxSprite _incomingAngleLine;
@@ -63,6 +64,12 @@ public class PlayState extends FlxState
 		// Bat
 		_bat = new Bat((int)FlxG.mouse.x, FlxG.height - 24, 0, 0);
 		add(_bat);
+		
+		// Blocks
+		_blocks = new FlxGroup();
+		_blocks.add(new Block(20, 30, 32, 8, 0xFFFFFFFF));
+		add(_blocks);
+		// add(new Block(20, 30, 32, 8, 0xFFFFFFFF));
 		
 		// Set up the collision callback
 		batBallCollision = new AFlxCollision()
@@ -176,7 +183,12 @@ public class PlayState extends FlxState
 		super.update();
 		// Let's see if any of the balls have hit the bat.
 		FlxG.overlap(_balls, _bat, batBallCollision);
+		
+		// Let us also see if any of the balls have hit any of the blocks
+		FlxG.collide(_balls, _blocks); //, ballBlockCollision);
 	}
+	
+	
 	
 
 }

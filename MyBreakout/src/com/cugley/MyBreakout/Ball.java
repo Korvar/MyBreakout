@@ -35,7 +35,7 @@ public class Ball extends FlxSprite {
 		velocity.y = YVel;
 		exists = true;
 		elasticity = (float) 0.5;
-		immovable = true;
+		//immovable = true;
 		setSolid(true);
 	}
 	
