@@ -16,7 +16,7 @@ public class Bat extends FlxSprite
 		makeGraphic(32,  8,  0xFFFFFFFF);
 		origin.x = width / 2;
 		origin.y = height / 2;
-		elasticity = 1;
+		elasticity = (float) 0.5;
 		immovable = true;
 		setSolid(true);
 	}

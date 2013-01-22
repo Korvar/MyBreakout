@@ -11,7 +11,6 @@ public class Ball extends FlxSprite {
 	private Boolean _served;
 	private FlxSprite _bat;
 	
-
 	// sound (work out how to do that later)
 	
 	public Ball()
@@ -45,8 +44,8 @@ public class Ball extends FlxSprite {
 		velocity.x = XVel;
 		velocity.y = YVel;
 		exists = true;
-		elasticity = 1;
-		// immovable = true;
+		elasticity = (float) 0.5;
+		immovable = true;
 		setSolid(true);
 	}
 	@Override
@@ -59,7 +58,7 @@ public class Ball extends FlxSprite {
 			x = _bat.x + _bat.width / 4;
 			y = _bat.y - height;
 		}
-		if (FlxG.mouse.justPressed() && !_served)
+		if (FlxG.mouse.justPressed() && !_served && (_bat != null))
 		{
 			_served = true;
 			velocity.x = 100;
@@ -98,6 +97,10 @@ public class Ball extends FlxSprite {
 		
 	}
 	
+//	public static boolean separate(FlxObject obj1, FlxObject obj2)
+//	{
+//		return true;
+//	}
 
 
 }
