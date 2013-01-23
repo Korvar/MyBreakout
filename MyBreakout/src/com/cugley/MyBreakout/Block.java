@@ -36,6 +36,7 @@ public class Block extends FlxSprite
 		health = Health;
 		_maxHealth = (int) health;
 		immovable = true;
+		elasticity = (float) 1;
 	}
 	
 	@Override

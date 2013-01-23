@@ -13,11 +13,10 @@ public class Ball extends FlxSprite {
 	
 	// sound (work out how to do that later)
 	
-
-	
 	public Ball(int X, int Y, int XVel, int YVel)
 	{
-		this(X, Y, XVel, YVel, false, null);
+		// Defaulting to a served ball
+		this(X, Y, XVel, YVel, true, null);
 	}
 	public Ball(int X, int Y, int XVel, int YVel, Boolean Served)
 	{
@@ -26,7 +25,7 @@ public class Ball extends FlxSprite {
 		
 	public Ball(int X, int Y, int XVel, int YVel, Boolean Served, FlxSprite ThisBat)
 	{
-		makeGraphic(4, 4, 0xFFFFFFFF);
+		makeGraphic(4, 4, 0xFFFF0000);
 		_served = Served;
 		_bat = ThisBat;
 		x=X;
@@ -34,7 +33,7 @@ public class Ball extends FlxSprite {
 		velocity.x = XVel;
 		velocity.y = YVel;
 		exists = true;
-		elasticity = (float) 0.5;
+		elasticity = (float) 1;
 		//immovable = true;
 		setSolid(true);
 	}
@@ -60,7 +59,6 @@ public class Ball extends FlxSprite {
 			x = FlxG.width - width;
 			velocity.x = -velocity.x;
 			FlxG.play("Ping.mp3");
-			
 		}
 		if (x <= 0)
 		{
@@ -80,18 +78,7 @@ public class Ball extends FlxSprite {
 			// kill();
 			y = FlxG.height;
 			velocity.y = -velocity.y;
-			
 		}
-		
 		super.update();
-		
-		
 	}
-	
-//	public static boolean separate(FlxObject obj1, FlxObject obj2)
-//	{
-//		return true;
-//	}
-
-
 }

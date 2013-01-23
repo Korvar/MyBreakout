@@ -25,34 +25,14 @@ public class PlayState extends FlxState
 	@Override
 	public void create()
 	{
-//		// Debug display
-//		_debugDisplay = new FlxText(0, 0, FlxG.width, "");
-//		add(_debugDisplay);
-//		// Debug Line
-//		_batAngleLine = new FlxSprite(FlxG.width/2 - 50, FlxG.height/2);
-//		_batAngleLine.makeGraphic(100, 1,0xFFFF0000);
-//		add(_batAngleLine);
-//		// Debug Line
-//		_incomingAngleLine = new FlxSprite(FlxG.width/2, FlxG.height/2);
-//		_incomingAngleLine.makeGraphic(50, 1,0xFF88FF88);
-//		_incomingAngleLine.origin=new FlxPoint(0,0);
-//		add(_incomingAngleLine);
-//		_outgoingAngleLine = new FlxSprite(FlxG.width/2, FlxG.height/2);
-//		_outgoingAngleLine.makeGraphic(50, 1,0xFFCCFFCC);
-//		_outgoingAngleLine.origin=new FlxPoint(0,0);
-//		add(_outgoingAngleLine);
-//		_incomingAngleLineRotated = new FlxSprite(FlxG.width/2, FlxG.height/2);
-//		_incomingAngleLineRotated.makeGraphic(50, 1,0xFFFF8888);
-//		_incomingAngleLineRotated.origin=new FlxPoint(0,0);
-//		add(_incomingAngleLineRotated);
-//		_outgoingAngleLineRotated = new FlxSprite(FlxG.width/2, FlxG.height/2);
-//		_outgoingAngleLineRotated.makeGraphic(50, 1,0xFFFFCCCC);
-//		_outgoingAngleLineRotated.origin=new FlxPoint(0,0);
-//		add(_outgoingAngleLineRotated);
+	
+		// Bat
+		_bat = new Bat((int)FlxG.mouse.x, FlxG.height - 24, 0, 0);
+		add(_bat);
 		
 		// Ball
 		_balls = new FlxGroup();
-		_ball = new Ball(FlxG.width / 2, FlxG.height /2, 100, 100);
+		_ball = new Ball(0, 0, 0, 0, false, _bat);
 		_balls.add(_ball);
 		_balls.add(new Ball(FlxG.width / 2, FlxG.height/2, 100, -100));
 		add(_balls);
@@ -61,17 +41,12 @@ public class PlayState extends FlxState
 		_scoreDisplay = new FlxText(0, 0, 200, "");
 		add(_scoreDisplay);
 		
-		// Bat
-		_bat = new Bat((int)FlxG.mouse.x, FlxG.height - 24, 0, 0);
-		add(_bat);
-		
-		// Blocks
+// Blocks
 		_blocks = new FlxGroup();
-		_blocks.add(new Block(20, 30, 32, 8, 0xFFFFFFFF));
+		_blocks.add(new Block(20, 30, 32, 8, 0xFFFFFFFF, 3));
 		add(_blocks);
-		// add(new Block(20, 30, 32, 8, 0xFFFFFFFF));
 		
-		// Set up the collision callback
+		// Set up the collision callbacks
 		batBallCollision = new AFlxCollision()
 		{
 			@Override
@@ -131,10 +106,6 @@ public class PlayState extends FlxState
 
 					FlxPoint incomingVelocity = new FlxPoint();
 					FlxPoint outgoingVelocity = new FlxPoint();
-					String tempStr;
-					
-//					tempStr = String.valueOf(tmpVelocity.x) + " " 
-//							+ String.valueOf(tmpVelocity.y) + " | ";
 					
 					incomingVelocity = FlxU.rotatePoint(tmpVelocity.x,  tmpVelocity.y,  0,  0,  -batAngle);
 					outgoingVelocity.x = incomingVelocity.x;
@@ -146,33 +117,22 @@ public class PlayState extends FlxState
 					colBall.velocity.y = tmpVelocity.y;
 
 					FlxG.play("Pong.mp3");	
-//					tempStr =  tempStr + " " 
-//							+ String.valueOf(incomingVelocity.x) + " " 
-//							+ String.valueOf(incomingVelocity.y) + " | "
-//							+ String.valueOf(outgoingVelocity.x) + " " 
-//							+ String.valueOf(outgoingVelocity.y) + " | " 
-//							+ String.valueOf(FlxU.getAngle(originPoint, outgoingVelocity)) + " | "
-//							+ String.valueOf(tmpVelocity.x) + " " 
-//							+ String.valueOf(tmpVelocity.y) + " | "
-//							+ String.valueOf(FlxU.getAngle(originPoint, tmpVelocity)) + " | "
-//							+ String.valueOf(batAngle);
-//					_debugDisplay.setText(tempStr);
-//					_batAngleLine.angle = batAngle;
-//					
-//					
-//					_incomingAngleLine.angle = FlxU.getAngle(originPoint, incomingVelocity);
-//					_outgoingAngleLine.angle = FlxU.getAngle(originPoint, outgoingVelocity);
-//					_incomingAngleLineRotated.angle = FlxU.getAngle(originPoint, incomingVelocity) + batAngle;
-//					_outgoingAngleLineRotated.angle = FlxU.getAngle(originPoint, outgoingVelocity) + batAngle;
-					
-					//colBall.immovable = false;
-
 				}
 				
 			}
 			
 		};
 		
+		ballBlockCollision = new AFlxCollision()
+		{
+			@Override
+			public void callback(FlxObject colBall, FlxObject colBlock)
+			{
+				colBlock.hurt(1);
+				FlxG.play("Pang.mp3");
+			}
+			
+		};
 	}
 	
 
@@ -185,7 +145,7 @@ public class PlayState extends FlxState
 		FlxG.overlap(_balls, _bat, batBallCollision);
 		
 		// Let us also see if any of the balls have hit any of the blocks
-		FlxG.collide(_balls, _blocks); //, ballBlockCollision);
+		FlxG.collide(_balls, _blocks, ballBlockCollision);
 	}
 	
 	
