@@ -19,7 +19,7 @@ public class PlayState extends FlxState
 	private String[] _level;
 	private int _currentLevel;
 	
-	private static String Level00Map = FlxG.loadString("assets/level00.txt"); 
+	private static String Level00Map = FlxG.loadString("level00.txt"); 
 	private static String Level01Map = FlxG.loadString("level01.txt");
 	private static String Level02Map = FlxG.loadString("level02.txt");
 	private static String Level03Map = FlxG.loadString("level03.txt");
@@ -199,7 +199,7 @@ public class PlayState extends FlxState
 			}
 			for (j = 0; j < cols.length; j ++)
 			{
-				int thisBlock = Integer.parseInt(cols[j]);
+				int thisBlock = Integer.parseInt(cols[j].trim());
 				if (thisBlock > 0)
 				{
 					if (thisBlock ==7)

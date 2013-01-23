@@ -6,6 +6,6 @@ public class MyBreakout extends FlxGame
 {
 	public MyBreakout()
 	{
-		super(400, 240, MenuState.class, 2, 50, 50, false, 800, 480);
+		super(320, 240, MenuState.class, 2, 50, 50, false, 640, 480);
 	}
 }
