@@ -11,21 +11,27 @@ public class PlayState extends FlxState
 	private Bat _bat;
 	private FlxGroup _blocks;
 	private FlxText _scoreDisplay;
-	private FlxText _debugDisplay;
+	private FlxSprite[] _hearts;
+	
 	private AFlxCollision batBallCollision;
 	private AFlxCollision ballBlockCollision;
 	
-	private FlxSprite _batAngleLine;
-	private FlxSprite _incomingAngleLine;
-	private FlxSprite _outgoingAngleLine;
-	private FlxSprite _incomingAngleLineRotated;
-	private FlxSprite _outgoingAngleLineRotated;
+	private String[] _level;
+	private int _currentLevel;
+	
+	private static String Level00Map = FlxG.loadString("assets/level00.txt"); 
+	private static String Level01Map = FlxG.loadString("level01.txt");
+	private static String Level02Map = FlxG.loadString("level02.txt");
+	private static String Level03Map = FlxG.loadString("level03.txt");
+	private static String SimpleLevel = FlxG.loadString("SimpleLevel.txt");
+	
 
 	
 	@Override
 	public void create()
 	{
-	
+		FlxG.mouse.hide();
+		
 		// Bat
 		_bat = new Bat((int)FlxG.mouse.x, FlxG.height - 24, 0, 0);
 		add(_bat);
@@ -34,17 +40,28 @@ public class PlayState extends FlxState
 		_balls = new FlxGroup();
 		_ball = new Ball(0, 0, 0, 0, false, _bat);
 		_balls.add(_ball);
-		_balls.add(new Ball(FlxG.width / 2, FlxG.height/2, 100, -100));
 		add(_balls);
 		
 		// Score Display
 		_scoreDisplay = new FlxText(0, 0, 200, "");
 		add(_scoreDisplay);
 		
-// Blocks
-		_blocks = new FlxGroup();
-		_blocks.add(new Block(20, 30, 32, 8, 0xFFFFFFFF, 3));
+		// Levels
+		_level = new String[] 
+				{
+					Level00Map,
+					Level01Map,
+					Level02Map,
+					Level03Map
+				};
+		_currentLevel = 0;
+		
+		// Blocks
+		_blocks = createBlocks(_level[_currentLevel]);
 		add(_blocks);
+		
+		
+		
 		
 		// Set up the collision callbacks
 		batBallCollision = new AFlxCollision()
@@ -148,7 +165,58 @@ public class PlayState extends FlxState
 		FlxG.collide(_balls, _blocks, ballBlockCollision);
 	}
 	
-	
+	private FlxGroup createBlocks(String levelMap)
+	{
+		FlxGroup blockGroup;
+		int i;
+		int j;
+		
+		int[] blockType = 
+			{
+				0x00000000,
+				0xffff0000,
+				0xff00ff00,
+				0xff0000ff,
+				0xffffff00,
+				0xffff00ff,
+				0xff00ffff,
+				0xffffffff	
+			};
+		String[] cols;
+		String[] rows = levelMap.split("\n");
+		int heightInBlocks = rows.length;
+		int blockHealth;
+		
+		blockGroup = new FlxGroup();
+		
+		for (i = 0; i < heightInBlocks; i++)
+		{
+			cols = rows[i].split(",");
+			if(cols.length <= 1)
+			{
+				heightInBlocks --;  //not sure why I did this in the original Flash version?
+				continue;  
+			}
+			for (j = 0; j < cols.length; j ++)
+			{
+				int thisBlock = Integer.parseInt(cols[j]);
+				if (thisBlock > 0)
+				{
+					if (thisBlock ==7)
+					{
+						blockHealth = 2;
+					}
+					else
+					{
+						blockHealth = 1;
+					}
+					blockGroup.add(new Block(j*32, i * 8, 32, 8, blockType[thisBlock], blockHealth, 0, 0));
+				}
+			}
+		}
+		return(blockGroup);
+		
+	}
 	
 
 }
