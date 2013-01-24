@@ -45,8 +45,6 @@ public class PlayState extends FlxState
 		
 		// Ball
 		_balls = new FlxGroup();
-		//_ball = new Ball(0, 0, 0, 0, false, _bat);
-		//_balls.add(_ball);
 		_balls.add(new Ball(0, 0, 0, 0, false, _bat));
 		add(_balls);
 		
@@ -172,16 +170,7 @@ public class PlayState extends FlxState
 					_blocks = createBlocks(_level[_currentLevel]);
 					add(_blocks);
 					
-					// In theory, speed up the ball, but the resetball function
-					// nukes the speed change
-					//_ball.velocity.x *= 1.1;
-					//_ball.velocity.y *= 1.1;
-					
-					// Get rid of any balls in the _balls list
-					_balls.clear();
-					_balls = new FlxGroup();
-					_balls.add(new Ball(0, 0, 0, 0, false, _bat));
-					add(_balls);
+					resetBalls();
 					
 					
 				}
@@ -190,7 +179,14 @@ public class PlayState extends FlxState
 		};
 	}
 	
-
+	private void resetBalls()
+	{
+		// Get rid of any balls in the _balls list
+		_balls.clear();
+		_balls = new FlxGroup();
+		_balls.add(new Ball(0, 0, 0, 0, false, _bat));
+		add(_balls);
+	}
 	
 	@Override
 	public void update()
@@ -201,6 +197,14 @@ public class PlayState extends FlxState
 		
 		// Let us also see if any of the balls have hit any of the blocks
 		FlxG.collide(_balls, _blocks, ballBlockCollision);
+		
+		// Check that there are still balls left
+		if (_balls.countLiving() == 0)
+		{
+			_bat.hurt(1);
+			FlxG.shake();
+			resetBalls();
+		}
 	}
 	
 	private FlxGroup createBlocks(String levelMap)

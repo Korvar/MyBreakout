@@ -51,8 +51,8 @@ public class Ball extends FlxSprite {
 		if (FlxG.mouse.justPressed() && !_served && (_bat != null))
 		{
 			_served = true;
-			velocity.x = 100;
-			velocity.y = -100;
+			velocity.x = 100 * (1 + FlxG.level * (float) 0.1);
+			velocity.y = -100 * (1 + FlxG.level * (float) 0.1);
 		}
 		if((x > (FlxG.width - width)))
 		{
@@ -75,9 +75,7 @@ public class Ball extends FlxSprite {
 		if (y >= FlxG.height)
 		{
 			FlxG.play("Ow.mp3");
-			// kill();
-			y = FlxG.height;
-			velocity.y = -velocity.y;
+			kill();
 		}
 		super.update();
 	}
