@@ -2,7 +2,7 @@ package com.cugley.MyBreakout;
 
 import org.flixel.*;
 import org.flixel.event.*;
-
+import org.flixel.system.*;
 
 public class PlayState extends FlxState
 {
@@ -25,21 +25,29 @@ public class PlayState extends FlxState
 	private static String Level03Map = FlxG.loadString("level03.txt");
 	private static String SimpleLevel = FlxG.loadString("SimpleLevel.txt");
 	
-
+	// private FlxDebugger _flxDebugger;
+	
+	
 	
 	@Override
 	public void create()
 	{
+		FlxG.debug = false;
+		FlxG.visualDebug = false;
+
+		FlxG.setDebuggerLayout(FlxG.DEBUGGER_BIG);
 		FlxG.mouse.hide();
 		
 		// Bat
 		_bat = new Bat((int)FlxG.mouse.x, FlxG.height - 24, 0, 0);
 		add(_bat);
+		FlxG.watch(_bat, "x");
 		
 		// Ball
 		_balls = new FlxGroup();
-		_ball = new Ball(0, 0, 0, 0, false, _bat);
-		_balls.add(_ball);
+		//_ball = new Ball(0, 0, 0, 0, false, _bat);
+		//_balls.add(_ball);
+		_balls.add(new Ball(0, 0, 0, 0, false, _bat));
 		add(_balls);
 		
 		// Score Display
@@ -49,12 +57,14 @@ public class PlayState extends FlxState
 		// Levels
 		_level = new String[] 
 				{
+					SimpleLevel,
 					Level00Map,
 					Level01Map,
 					Level02Map,
 					Level03Map
 				};
 		_currentLevel = 0;
+		FlxG.level = _currentLevel;
 		
 		// Blocks
 		_blocks = createBlocks(_level[_currentLevel]);
@@ -147,6 +157,34 @@ public class PlayState extends FlxState
 			{
 				colBlock.hurt(1);
 				FlxG.play("Pang.mp3");
+				
+				// And now check to see if the level is completed
+				if (_blocks.countLiving() == 0)
+				{
+					_blocks.clear();
+					FlxG.play("Yay.mp3");
+					
+					// Will replace this with a game end screen at some point
+					_currentLevel = (_currentLevel + 1) % _level.length; 
+					FlxG.level = _currentLevel;
+					
+					// Next level!
+					_blocks = createBlocks(_level[_currentLevel]);
+					add(_blocks);
+					
+					// In theory, speed up the ball, but the resetball function
+					// nukes the speed change
+					//_ball.velocity.x *= 1.1;
+					//_ball.velocity.y *= 1.1;
+					
+					// Get rid of any balls in the _balls list
+					_balls.clear();
+					_balls = new FlxGroup();
+					_balls.add(new Ball(0, 0, 0, 0, false, _bat));
+					add(_balls);
+					
+					
+				}
 			}
 			
 		};
