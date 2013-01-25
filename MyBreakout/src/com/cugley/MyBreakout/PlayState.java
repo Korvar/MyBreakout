@@ -241,7 +241,7 @@ public class PlayState extends FlxState
 		if (_balls.countLiving() == 0)
 		{
 			_bat.hurt(1);
-			FlxG.shake((float) 0.5);
+			FlxG.shake(0.0125f);
 			resetBalls();
 		}
 		
