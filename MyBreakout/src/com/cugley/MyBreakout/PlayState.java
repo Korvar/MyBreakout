@@ -15,6 +15,7 @@ public class PlayState extends FlxState
 	
 	private AFlxCollision batBallCollision;
 	private AFlxCollision ballBlockCollision;
+	private AFlxCamera _gameOver;
 	
 	private String[] _level;
 	private int _currentLevel;
@@ -27,7 +28,13 @@ public class PlayState extends FlxState
 	
 	// private FlxDebugger _flxDebugger;
 	
-	
+	// Sounds
+	private FlxSound AwwwwSound;
+	private FlxSound OwSound;
+	private FlxSound PangSound;
+	private FlxSound PingSound;
+	private FlxSound PongSound;
+	private FlxSound YaySound;
 	
 	@Override
 	public void create()
@@ -37,6 +44,8 @@ public class PlayState extends FlxState
 
 		FlxG.setDebuggerLayout(FlxG.DEBUGGER_BIG);
 		FlxG.mouse.hide();
+	
+		setupSounds();
 		
 		// Bat
 		_bat = new Bat((int)FlxG.mouse.x, FlxG.height - 24, 0, 0);
@@ -94,14 +103,14 @@ public class PlayState extends FlxState
 				if (colBall.justTouched(FlxObject.WALL))
 				{
 					colBall.velocity.x = -colBall.velocity.x;
-					FlxG.play("Pong.mp3");
+					PongSound.play(true);
 				}
 				if (colBall.justTouched(FlxObject.UP)) 
 				{
 					// I have no idea how the ball would be travelling
 					// up, but let's chuck this here just in case
 					colBall.velocity.y = -colBall.velocity.y;
-					FlxG.play("Pong.mp3");
+					PongSound.play(true);
 				}
 				
 				
@@ -141,7 +150,7 @@ public class PlayState extends FlxState
 					colBall.velocity.x = tmpVelocity.x;
 					colBall.velocity.y = tmpVelocity.y;
 
-					FlxG.play("Pong.mp3");	
+					PongSound.play(true);	
 				}
 				
 			}
@@ -154,13 +163,13 @@ public class PlayState extends FlxState
 			public void callback(FlxObject colBall, FlxObject colBlock)
 			{
 				colBlock.hurt(1);
-				FlxG.play("Pang.mp3");
+				PangSound.play(true);
 				
 				// And now check to see if the level is completed
 				if (_blocks.countLiving() == 0)
 				{
 					_blocks.clear();
-					FlxG.play("Yay.mp3");
+					YaySound.play(true);
 					
 					// Will replace this with a game end screen at some point
 					_currentLevel = (_currentLevel + 1) % _level.length; 
@@ -177,6 +186,36 @@ public class PlayState extends FlxState
 			}
 			
 		};
+	
+		_gameOver = new AFlxCamera()
+		{
+			@Override
+			public void callback()
+			{
+				FlxG.switchState(new GameOverState());
+			}
+			
+		};
+	}
+	
+	private void setupSounds()
+	{
+		AwwwwSound = new FlxSound();
+		AwwwwSound.loadEmbedded("Awwww.mp3");
+		AwwwwSound.survive = true;
+		OwSound = new FlxSound();
+		OwSound.loadEmbedded("Ow.mp3");
+		OwSound.survive = true;
+		PangSound = new FlxSound();
+		PangSound.loadEmbedded("Pang.mp3");
+		PingSound = new FlxSound();
+		PingSound.loadEmbedded("Ping.mp3");
+		PongSound = new FlxSound();
+		PongSound.loadEmbedded("Pong.mp3");
+		PongSound.survive = true;
+		PongSound.autoDestroy = false;
+		YaySound = new FlxSound();
+		YaySound.loadEmbedded("Yay.mp3");
 	}
 	
 	private void resetBalls()
@@ -202,8 +241,16 @@ public class PlayState extends FlxState
 		if (_balls.countLiving() == 0)
 		{
 			_bat.hurt(1);
-			FlxG.shake();
+			FlxG.shake((float) 0.5);
 			resetBalls();
+		}
+		
+		// How is our bat doing?
+		if (! _bat.alive)
+		{
+			AwwwwSound.play(true);
+			FlxG.fade(0xFF000000, (float) 0.75, _gameOver);
+			
 		}
 	}
 	
