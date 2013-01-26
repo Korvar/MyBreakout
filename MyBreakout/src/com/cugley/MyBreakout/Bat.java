@@ -11,7 +11,7 @@ public class Bat extends FlxSprite
 	
 	public Bat(int X, int Y, int XVel, int YVel)
 	{
-		_max_health = 1; // 5
+		_max_health = 5;
 		health = _max_health;
 		makeGraphic(32,  8,  0xFFFFFFFF);
 		origin.x = width / 2;

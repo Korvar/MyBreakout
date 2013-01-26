@@ -45,7 +45,7 @@ public class Ball extends FlxSprite {
 		{
 			velocity.x = 0;
 			velocity.y = 0;
-			x = _bat.x + _bat.width / 4;
+			x = _bat.x + 3 * _bat.width / 4;
 			y = _bat.y - height;
 		}
 		if (FlxG.mouse.justPressed() && !_served && (_bat != null))

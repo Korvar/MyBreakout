@@ -16,6 +16,7 @@ public class PlayState extends FlxState
 	private AFlxCollision batBallCollision;
 	private AFlxCollision ballBlockCollision;
 	private AFlxCamera _gameOver;
+	private AFlxCamera _victory;
 	
 	private String[] _level;
 	private int _currentLevel;
@@ -64,8 +65,8 @@ public class PlayState extends FlxState
 		// Levels
 		_level = new String[] 
 				{
-					SimpleLevel,
-					Level00Map,
+					// SimpleLevel  // For testing game state changes
+					// Level00Map,
 					Level01Map,
 					Level02Map,
 					Level03Map
@@ -76,6 +77,29 @@ public class PlayState extends FlxState
 		// Blocks
 		_blocks = createBlocks(_level[_currentLevel]);
 		add(_blocks);
+		
+		// Scoreboard
+		_scoreDisplay = new FlxText(FlxG.width - 50, 2, 48, String.valueOf(FlxG.score));
+		_scoreDisplay.setFormat(null, 16, 0xffffffff, "right");
+		_scoreDisplay.scrollFactor.x = _scoreDisplay.scrollFactor.y = 0;
+		_scoreDisplay.setShadow(0xFF888888);
+		_scoreDisplay.ID = 9998;
+		add(_scoreDisplay);
+		
+		_hearts = new FlxSprite[_bat._max_health];
+        FlxSprite tmpH;
+        for (int hCount = 0; hCount < _bat._max_health; hCount++)
+        {
+            tmpH = new FlxSprite(2 +(hCount * 10), 2);
+			tmpH.loadGraphic("Hearts.pack:Hearts", true, false, 8, 8);
+            tmpH.scrollFactor.x = tmpH.scrollFactor.y = 0;
+            tmpH.addAnimation("on", new int[]{0});
+            tmpH.addAnimation("off", new int[]{1});
+            tmpH.play("on");
+            tmpH.ID = 9999;
+            add(tmpH);
+            _hearts[hCount] = tmpH;
+        }
 		
 		
 		
@@ -175,13 +199,17 @@ public class PlayState extends FlxState
 					_currentLevel = (_currentLevel + 1) % _level.length; 
 					FlxG.level = _currentLevel;
 					
+					if (_currentLevel == 0)
+					{
+						YaySound.play(true);
+						FlxG.fade(0xFF000000, (float) 0.75, _victory);
+					}
+					
 					// Next level!
 					_blocks = createBlocks(_level[_currentLevel]);
 					add(_blocks);
 					
 					resetBalls();
-					
-					
 				}
 			}
 			
@@ -193,6 +221,16 @@ public class PlayState extends FlxState
 			public void callback()
 			{
 				FlxG.switchState(new GameOverState());
+			}
+			
+		};
+		
+		_victory = new AFlxCamera()
+		{
+			@Override
+			public void callback()
+			{
+				FlxG.switchState(new VictoryState());
 			}
 			
 		};
@@ -230,6 +268,10 @@ public class PlayState extends FlxState
 	@Override
 	public void update()
 	{
+		sort("ID");
+		int _old_score = FlxG.score;
+		float _old_health = _bat.health;
+		
 		super.update();
 		// Let's see if any of the balls have hit the bat.
 		FlxG.overlap(_balls, _bat, batBallCollision);
@@ -250,7 +292,26 @@ public class PlayState extends FlxState
 		{
 			AwwwwSound.play(true);
 			FlxG.fade(0xFF000000, (float) 0.75, _gameOver);
-			
+		}
+		
+		if (_old_score != FlxG.score)
+		{
+			_scoreDisplay.setText(String.valueOf(FlxG.score));
+		}
+		
+		if (_bat.health != _old_health)
+		{
+			for (int i = 0; i < _bat._max_health; i ++)
+			{
+				if (i >= _bat.health)
+				{
+					_hearts[i].play("off");
+				}
+				else 
+				{
+					_hearts[1].play("on");
+				}
+			}
 		}
 	}
 	
