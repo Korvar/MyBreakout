@@ -58,15 +58,11 @@ public class PlayState extends FlxState
 		_balls.add(new Ball(0, 0, 0, 0, false, _bat));
 		add(_balls);
 		
-		// Score Display
-		_scoreDisplay = new FlxText(0, 0, 200, "");
-		add(_scoreDisplay);
-		
 		// Levels
 		_level = new String[] 
 				{
 					// SimpleLevel  // For testing game state changes
-					// Level00Map,
+					Level00Map,
 					Level01Map,
 					Level02Map,
 					Level03Map
@@ -79,11 +75,12 @@ public class PlayState extends FlxState
 		add(_blocks);
 		
 		// Scoreboard
+		FlxG.score = 0;
 		_scoreDisplay = new FlxText(FlxG.width - 50, 2, 48, String.valueOf(FlxG.score));
 		_scoreDisplay.setFormat(null, 16, 0xffffffff, "right");
 		_scoreDisplay.scrollFactor.x = _scoreDisplay.scrollFactor.y = 0;
 		_scoreDisplay.setShadow(0xFF888888);
-		_scoreDisplay.ID = 9998;
+		_scoreDisplay.ID = 9998;  // using ID as Z-level
 		add(_scoreDisplay);
 		
 		_hearts = new FlxSprite[_bat._max_health];
@@ -96,7 +93,7 @@ public class PlayState extends FlxState
             tmpH.addAnimation("on", new int[]{0});
             tmpH.addAnimation("off", new int[]{1});
             tmpH.play("on");
-            tmpH.ID = 9999;
+            tmpH.ID = 9999;  // using ID as Z-level
             add(tmpH);
             _hearts[hCount] = tmpH;
         }
